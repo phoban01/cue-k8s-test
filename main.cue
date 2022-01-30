@@ -14,7 +14,7 @@ list.Concat([#serviceAccounts, [#cm], [#ns]])
 
 #cm: contraints.#ConfigMap & {
 	metadata: name:      "tenant-details"
-	metadata: namespace: "default"
+	metadata: namespace: #ns.metadata.name
 	data: {
 		for i, tenant in #tenants {
 			let tenantspec = {
