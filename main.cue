@@ -6,7 +6,7 @@ import (
 	"github.com/phoban01/cue-k8s-test/contraints"
 )
 
-list.Concat([#serviceAccounts, [#cm], [#ns]])
+list.Concat([#serviceAccounts, #deployments, [#cm], [#ns]])
 
 #ns: contraints.#Namespace & {
 	metadata: name: "demo-system"
@@ -33,17 +33,44 @@ list.Concat([#serviceAccounts, [#cm], [#ns]])
 	}
 }]
 
+#deployments: [ for _, tenant in #tenants {
+	contraints.#Deployment & {
+		metadata: name:      tenant.name
+		metadata: namespace: tenant.namespace
+		spec: {
+			replicas: 1
+			selector: matchLabels: app: tenant.app_id
+			template: {
+				metadata: labels: app: tenant.app_id
+				spec: {
+					serviceAccountName: tenant.name
+					containers: [{
+						name:  tenant.app_id
+						image: tenant.image
+					}]
+				}
+			}
+		}
+	}
+}]
+
 #tenants: [
 	{
 		name:      "admin-account"
 		namespace: #ns.metadata.name
+		app_id:    "cache"
+		image:     "redis:latest"
 	},
 	{
 		name:      "editor-account"
 		namespace: #ns.metadata.name
+		app_id:    "server"
+		image:     "nginx:latest"
 	},
 	{
 		name:      "viewer-account"
 		namespace: #ns.metadata.name
+		app_id:    "proxy"
+		image:     "nginx:latest"
 	},
 ]

@@ -34,3 +34,23 @@ _metadata: {
 		[string]: string
 	}
 }
+
+#Deployment: {
+	apiVersion: "apps/v1"
+	kind:       "Deployment"
+	metadata:   _metadata
+	spec: {
+		replicas: int
+		selector: matchLabels: app: string
+		template: {
+			metadata: labels: app: string
+			spec: {
+				serviceAccountName: string
+				containers: [{
+					name:  string
+					image: string
+				}]
+			}
+		}
+	}
+}
