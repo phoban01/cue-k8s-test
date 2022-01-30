@@ -67,10 +67,10 @@ list.Concat([#serviceAccounts, #deployments, [#cm], [#ns]])
 		app_id:    "server"
 		image:     "nginx:latest"
 	},
-	{
-		name:      "viewer-account"
-		namespace: #ns.metadata.name
-		app_id:    "proxy"
-		image:     "nginx:latest"
-	},
+	// {
+	//     name:      "viewer-account"
+	//     namespace: #ns.metadata.name
+	//     app_id:    "proxy"
+	//     image:     "nginx:latest"
+	// },
 ]
