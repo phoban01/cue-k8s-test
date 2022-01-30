@@ -3,7 +3,7 @@ package main
 import (
 	"list"
 	"encoding/yaml"
-	"github.com/phoban01/cuelang-test/contraints"
+	"github.com/phoban01/cue-k8s-test/contraints"
 )
 
 list.Concat([#serviceAccounts, [#cm], [#ns]])
